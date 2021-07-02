@@ -1,86 +1,427 @@
-{% extends 'base.html' %}
-
-{% block content %}
-    <div>
-        <div class="container pt-4">
-            <div class="row shadow p-0 mt-4">
-                <div class="col-lg-4 mx-auto shadow p-0">
-                    <div class="alert alert-info">
-                        <h2>Add New TODO</h2>
-                    </div>
-                    <div class="p-4">
-                        <form action="/add-todo/" method="post">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <hr>
-                            <input type="submit" value="ADD" class="btn btn-info">
-                        </form>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="border">
-                        {% if todos|length == 0 %}
-                            <div class="p-4">
-                                <br>
-                                <br>
-                                <div class="alert alert-info text-center">
-                                    <p class="" style="font-size: 30px;">
-                                        No Todos
-                                    </p>
-                                </div>
-                                <br>
-                                <br>
-                            </div>
-                        {% else %}
-                            <div>
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
-                                        <th>Priority</th>
-                                        <th>Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    {% for todo in todos %}
-                                        <tr>
-                                            <td>{{ forloop.counter }}</td>
-                                            <td>{{ todo.title }}</td>
-                                            <td>
-                                                {% if todo.status == 'C' %}
-                                                    Completed
-                                                {% else %}
-                                                    Pending
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ todo.priority }}</td>
-                                            <td>{{ todo.date }}</td>
-                                            <td>
-                                                <a href="/delete-todo/{{ todo.id }}" class="btn btn-danger">Delete</a>
-                                                {% if todo.status == 'P' %}
-                                                    <a href="/change-status/{{ todo.id }}/C" class="btn btn-success">Completed</a>
-                                                {% else %}
-                                                    <a href="/change-status/{{ todo.id }}/P"
-                                                       class="btn btn-success">Pending</a>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+{% extends 'base.html' %} {% block content %}
+<div>
+  <div class="container pt-4">
+    <div class="row shadow p-0 mt-4">
+      <div class="col-lg-4 mx-auto shadow p-0">
+        <div class="alert alert-info">
+          <h2>Add New TODO</h2>
         </div>
-    </div>
-{% endblock %}
+        <div class="p-4">
+          <form action="/add-todo/" method="post">
+            {% csrf_token %} {{ form.as_p }}
+            <hr />
+            <input type="submit" value="ADD" class="btn btn-info" />
+          </form>
+        </div>
+      </div>
 
+      <div class="col">
+        <div class="border">
+          {% if todos|length == 0 %}
+          <div class="p-4">
+            <br />
+            <br />
+            <div class="alert alert-info text-center">
+              <p class="" style="font-size: 30px">No Todos</p>
+            </div>
+            <br />
+            <br />
+          </div>
+          {% else %}
+          <div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for todo in todos %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ todo.title }}</td>
+                  <td>
+                    {% if todo.status == 'C' %} Completed {% else %} Pending {% endif %}
+                  </td>
+                  <td>{{ todo.priority }}</td>
+                  <td>{{ todo.date }}</td>
+                  <td>
+                    <!-- Button trigger modal -->
+                    <button
+                      data-toggle="modal"
+                      data-target="#exampleModalCenter"
+                      class="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+
+                    <!-- Modal -->
+                    <div
+                      class="modal fade"
+                      id="exampleModalCenter"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="exampleModalCenterTitle"
+                      aria-hidden="true"
+                    >
+                      <div
+                        class="modal-dialog modal-dialog-centered"
+                        role="document"
+                      >
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="exampleModalCenterTitle"
+                            >
+                              Modal title
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">...</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                            <a
+                              href="/delete-todo/{{ todo.id }}"
+                              class="btn btn-danger"
+                              >Delete</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% if todo.status == 'P' %}
+                    <a
+                      href="/change-status/{{ todo.id }}/C"
+                      class="btn btn-success"
+                      >Completed</a
+                    >
+                    {% else %}
+                    <a
+                      href="/change-status/{{ todo.id }}/P"
+                      class="btn btn-success"
+                      >Pending</a
+                    >
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+h1 {
+  margin: 15px 0;
+  font-weight: 900;
+  font-size: 28px;
+  text-align: center;
+}
+input {
+  transition: 0.5s ease-in-out;
+  margin: 10px 0;
+  font-size: 18px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.11);
+  border: none;
+}
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  margin: 35px 0;
+}
+button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  font-size: 18px;
+  transition: 0.5s ease-in-out;
+}
+label {
+  font-size: 12px;
+}
+form {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  max-width: 370px;
+  margin: 5px auto;
+}
+form button {
+  background: rgb(25, 67, 255);
+  width: 100%;
+  margin: 5px 0;
+  color: white;
+}
+.start {
+  background: rgb(48, 33, 253);
+  color: white;
+}
+.break {
+  background: rgb(0, 199, 116);
+  color: #000000;
+}
+.reset {
+  background: rgb(250, 69, 109);
+  color: #000000;
+}
+.pause {
+  background: rgb(253, 143, 17);
+}
+.resume {
+  background: rgb(131, 10, 252);
+  color: white;
+}
+.clock {
+  padding: 3px;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  height: 30%;
+  font-size: 24px;
+}
+.progress-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.progress-ring__circle {
+  transition: 0.5s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke: rgb(51, 65, 255);
+}
+
+.danger {
+  stroke: rgb(243, 17, 28);
+  animation: pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: rotate(-90deg) scale(1);
+  }
+  50% {
+    transform: rotate(-90deg) scale(1.05);
+  }
+  75% {
+    transform: rotate(-90deg) scale(0.8);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .clock-container {
+    padding-top: 50px;
+    display: grid;
+    grid-template-areas:
+      "clock form"
+      "btns form";
+  }
+  .btn-group {
+    grid-area: btns;
+    justify-content: center;
+  }
+  .clock {
+    grid-area: clock;
+    height: 100%;
+  }
+  h1 {
+    grid-area: head;
+
+    align-self: center;
+  }
+  form {
+    align-self: center;
+    justify-self: center;
+    grid-area: form;
+    width: 50%;
+    justify-content: space-around;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  form {
+    height: 40%;
+  }
+}
+
+ </style>
+<div class='clock-container'>
+  <figure class="clock">
+    <div class="mins">0</div>
+    <div>:</div>
+    <div class="secs">00</div>
+    <audio
+      src="http://soundbible.com/mp3/service-bell_daniel_simion.mp3"
+    ></audio>
+    <svg class="progress-ring" height="120" width="120">
+      <circle
+        class="progress-ring__circle"
+        stroke-width="8"
+        fill="transparent"
+        r="50"
+        cx="60"
+        cy="60"
+      />
+    </svg>
+  </figure>
+
+  <div class="btn-group">
+    <button class="start">start focus</button>
+    <button class="reset">reset</button>
+    <button class="pause">pause</button>
+  </div>
+
+  <form id="form">
+    <label for="focusTime">Focus Time</label>
+    <input type="number" value="1" id="focusTime" />
+    <label for="breakTime">Break Time</label>
+    <input type="number" value="1" id="breakTime" />
+    <button type="submit">Save settings</button>
+  </form>
+
+  <script>
+    const focusTimeInput = document.querySelector("#focusTime");
+    const breakTimeInput = document.querySelector("#breakTime");
+    const pauseBtn = document.querySelector(".pause");
+    focusTimeInput.value = localStorage.getItem("focusTime");
+    breakTimeInput.value = localStorage.getItem("breakTime");
+
+    document.querySelector("#form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      localStorage.setItem("focusTime", focusTimeInput.value);
+      localStorage.setItem("breakTime", breakTimeInput.value);
+    });
+
+    document.querySelector(".reset").addEventListener("click", () => {
+      startBtn.style.transform = "scale(1)";
+      clearTimeout(initial);
+      setProgress(0);
+      mindiv.textContent = 0;
+      secdiv.textContent = 0;
+    });
+
+    pauseBtn.addEventListener("click", () => {
+      if (paused === undefined) {
+        return;
+      }
+      if (paused) {
+        paused = false;
+        initial = setTimeout("decremenT()", 60);
+        pauseBtn.textContent = "pause";
+        pauseBtn.classList.remove("resume");
+      } else {
+        clearTimeout(initial);
+        pauseBtn.textContent = "resume";
+        pauseBtn.classList.add("resume");
+        paused = true;
+      }
+    });
+
+    const circle = document.querySelector(".progress-ring__circle");
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    circle.style.strokeDasharray = circumference;
+    circle.style.strokeDashoffset = circumference;
+
+    function setProgress(percent) {
+      const offset = circumference - (percent / 100) * circumference;
+      circle.style.strokeDashoffset = offset;
+    }
+    const el = document.querySelector(".clock");
+    const bell = document.querySelector("audio");
+
+    const mindiv = document.querySelector(".mins");
+    const secdiv = document.querySelector(".secs");
+
+    const startBtn = document.querySelector(".start");
+    localStorage.setItem("btn", "focus");
+
+    let initial, totalsecs, perc, paused, mins, seconds;
+
+    startBtn.addEventListener("click", () => {
+      let btn = localStorage.getItem("btn");
+
+      if (btn === "focus") {
+        mins = +localStorage.getItem("focusTime") || 1;
+      } else {
+        mins = +localStorage.getItem("breakTime") || 1;
+      }
+
+      seconds = mins * 60;
+      totalsecs = mins * 60;
+      setTimeout(decremenT(), 60);
+      startBtn.style.transform = "scale(0)";
+      paused = false;
+    });
+
+    function decremenT() {
+      mindiv.textContent = Math.floor(seconds / 60);
+      secdiv.textContent = seconds % 60 > 9 ? seconds % 60 : `0${seconds % 60}`;
+      if (circle.classList.contains("danger")) {
+        circle.classList.remove("danger");
+      }
+
+      if (seconds > 0) {
+        perc = Math.ceil(((totalsecs - seconds) / totalsecs) * 100);
+        setProgress(perc);
+        seconds--;
+        initial = window.setTimeout("decremenT()", 1000);
+        if (seconds < 10) {
+          circle.classList.add("danger");
+        }
+      } else {
+        mins = 0;
+        seconds = 0;
+        bell.play();
+        let btn = localStorage.getItem("btn");
+
+        if (btn === "focus") {
+          startBtn.textContent = "start break";
+          startBtn.classList.add("break");
+          localStorage.setItem("btn", "break");
+        } else {
+          startBtn.classList.remove("break");
+          startBtn.textContent = "start focus";
+          localStorage.setItem("btn", "focus");
+        }
+        startBtn.style.transform = "scale(1)";
+      }
+    }
+  </script>
+</div>
+
+{% endblock %}

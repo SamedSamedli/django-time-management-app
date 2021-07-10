@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 
 class TODO(models.Model):
     status_choices = [
-        ('C', 'COMPLETED'),
-        ('F', 'PENDING'),
+        ('C', 'Həll edilmiş'),
+        ('F', 'Gözləmədə'),
     ]
     priority_choices = [
         ('1', '1️⃣'),
@@ -26,4 +26,11 @@ class TODO(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     priority = models.CharField(max_length=2, choices=priority_choices)
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=100)
+    #slug = models.SlugField()
+    def __str__(self):
+     return self.title
 

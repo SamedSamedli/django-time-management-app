@@ -1,20 +1,199 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-    <h1>Sign Up Page</h1>
-    <div class="container pt-4">
-        <div class="col-lg-5 shadow mx-auto p-0">
-            <div class="alert alert-success">Create Account</div>
-            <div class="p-4">
-                <form action="/signup/" method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <hr>
-                    <input class="btn btn-success" type="submit" value="Create Account">
-                </form>
-            </div>
-        </div>
+<style>
+  @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400");
+  @import url("https://fonts.googleapis.com/css?family=Playfair+Display");
+  .maincontainer,
+  .message,
+  .form,
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  body {
+    height: 100vh;
+    background: #e8e8e8;
+    font-family: "Source Sans Pro", sans-serif;
+    overflow: hidden;
+  }
+
+  .containerr {
+    width: 700px;
+    min-height: 400px;
+    background: white;
+    position: relative;
+    display: grid;
+    grid-template: 100%/50% 50%;
+    box-shadow: 2px 2px 10px 0 rgba(51, 51, 51, 0.2);
+  }
+
+  .message {
+    position: absolute;
+    background: white;
+    width: 50%;
+    height: 100%;
+    transition: 0.5s all ease;
+    transform: translateX(100%);
+    z-index: 4;
+  }
+  .message:before {
+    position: absolute;
+    content: "";
+    width: 1px;
+    height: 70%;
+    background: #c3c3d8;
+    opacity: 0;
+    left: 0;
+    top: 15%;
+  }
+  .message .button {
+    margin: 5px 0;
+  }
+
+  .signup:before {
+    opacity: 0.3;
+    left: 0;
+  }
+
+  .login:before {
+    opacity: 0.3;
+    left: 100%;
+  }
+
+  .btn-wrapper {
+    width: 60%;
+  }
+
+  .form {
+    width: 100%;
+    height: 100%;
+  }
+  .form--heading {
+    font-size: 18px;
+    height: 50px;
+    color: #809bce;
+    font-family: "Playfair Display", serif;
+  }
+
+  form {
+    width: 70%;
+  }
+  form > * {
+    margin: 10px;
+  }
+  form input {
+    width: 90%;
+    border: 0;
+    border-bottom: 1px solid rgba(195, 195, 216, 0.5);
+    font-size: 13px;
+    font-weight: 300;
+    color: #797a9e;
+    letter-spacing: 0.11em;
+  }
+  form input::placeholder {
+    color: #c3c3d8;
+    font-size: 10px;
+  }
+  form input:focus {
+    outline: 0;
+    border-bottom: 1px solid rgba(128, 155, 206, 0.7);
+    transition: 0.6s all ease;
+  }
+
+  .button {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    outline: 0;
+    color: white;
+    font-size: 15px;
+    font-weight: 300;
+    position: relative;
+    z-index: 3;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #809bce, #9893da);
+    font-family: "Playfair Display", serif;
+    cursor: pointer;
+  }
+  .errors {
+      color: red;
+  }
+
+  @media (max-width: 750px) {
+    .container {
+      transform: scale(0.8);
+    }
+  }
+
+  .maincontainer{
+    margin-top: 60px;
+  }
+</style>
+<div class="maincontainer">
+  <div class="containerr">
+    <div class="message signup">
+      <div class="btn-wrapper">
+        <button class="button" id="signup">Qeydiyyat</button>
+        <a style='color: white; text-decoration: none;' href="/app/login">
+        <button class="button" id="login">
+            Giriş
+        </button></a>
+      </div>
     </div>
+    <div class="form form--signup">
+      <div class="form--heading">Xoş gəldiniz! Qeydiyyat</div>
+      <form action="/app/signup/" method="post">
+              {% csrf_token %} 
+              {{ form.username.label }}:
+              {{ form.username }}
+              {{ form.password1.label }}:
+              {{ form.password1 }}
+              {{ form.password2.label }}:
+              {{ form.password2 }}
+              <div class='errors'>
+              {{form.errors}}
+              </div>
+
+        <button class="button">Qeydiyyat</button>
+      </form>
+    </div>
+    <div class="form form--login">
+      <div class="form--heading">Təkrar xoş gəldiniz!</div>
+
+                <form action="/app/signup/" method="post">
+                    {% csrf_token %}
+                    {{ form.username.label }}
+                    {{ form.username }}
+
+                    {{ form.password1.label }}
+                    {{ form.password1 }}
+                    <hr>
+                    <button class="button">Giriş</button>
+                </form>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+  $("#signup").click(function () {
+    $(".message").css("transform", "translateX(100%)");
+    if ($(".message").hasClass("login")) {
+      $(".message").removeClass("login");
+    }
+    $(".message").addClass("signup");
+  });
+
+  $("#login").click(function () {
+    $(".message").css("transform", "translateX(0)");
+    if ($(".message").hasClass("login")) {
+      $(".message").removeClass("signup");
+    }
+    $(".message").addClass("login");
+  });
+</script>
+
 {% endblock %}
-
-

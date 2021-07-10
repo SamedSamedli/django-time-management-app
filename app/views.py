@@ -29,7 +29,6 @@ def login(request):
         return render(request, 'login.html', context=context)
     else:
         form = AuthenticationForm(data=request.POST)
-        print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -59,13 +58,13 @@ def signup(request):
         }
         if form.is_valid():
             user = form.save()
-            if user is not None:
-                return redirect('login')
+            loginUser(request, user)
+            return redirect('home')
         else:
             return render(request, 'signup.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='signup')
 def add_todo(request):
     if request.user.is_authenticated:
         user = request.user

@@ -4,13 +4,13 @@
     <div class="row shadow p-0 mt-4">
       <div class="col-lg-4 mx-auto shadow p-0">
         <div class="alert alert-info">
-          <h2>Add New TODO</h2>
+          <h2>Yeni tapşırıq əlavə edin</h2>
         </div>
         <div class="p-4">
-          <form action="/add-todo/" method="post">
+          <form action="/app/add-todo/" method="post">
             {% csrf_token %} {{ form.as_p }}
             <hr />
-            <input type="submit" value="ADD" class="btn btn-info" />
+            <input type="submit" value="Əlavə et" class="btn btn-info" />
           </form>
         </div>
       </div>
@@ -22,7 +22,7 @@
             <br />
             <br />
             <div class="alert alert-info text-center">
-              <p class="" style="font-size: 30px">No Todos</p>
+              <p class="" style="font-size: 30px">Tapşırıq yoxdur</p>
             </div>
             <br />
             <br />
@@ -33,11 +33,11 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Title</th>
+                  <th>Başlıq</th>
                   <th>Status</th>
-                  <th>Priority</th>
-                  <th>Date</th>
-                  <th>Action</th>
+                  <th>Dərəcə</th>
+                  <th>Tarix</th>
+                  <th>Fəaliyyət</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,80 +46,43 @@
                   <td>{{ forloop.counter }}</td>
                   <td>{{ todo.title }}</td>
                   <td>
-                    {% if todo.status == 'C' %} Completed {% else %} Pending {% endif %}
+                    {% if todo.status == 'C' %} Həll edildi {% else %} Gözləyir
+                    {% endif %}
                   </td>
                   <td>{{ todo.priority }}</td>
                   <td>{{ todo.date }}</td>
                   <td>
                     <!-- Button trigger modal -->
-                    <button
-                      data-toggle="modal"
-                      data-target="#exampleModalCenter"
-                      class="btn btn-danger"
-                    >
-                      Delete
+                    <button data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-danger">
+                      Sil
                     </button>
 
                     <!-- Modal -->
-                    <div
-                      class="modal fade"
-                      id="exampleModalCenter"
-                      tabindex="-1"
-                      role="dialog"
-                      aria-labelledby="exampleModalCenterTitle"
-                      aria-hidden="true"
-                    >
-                      <div
-                        class="modal-dialog modal-dialog-centered"
-                        role="document"
-                      >
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="exampleModalCenterTitle"
-                            >
-                              Modal title
+                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                              Silmək istədiyinizdən əminsinizmi?
                             </h5>
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="modal"
-                              aria-label="Close"
-                            >
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div class="modal-body">...</div>
                           <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn btn-secondary"
-                              data-dismiss="modal"
-                            >
-                              Close
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                              Bağla
                             </button>
-                            <a
-                              href="/delete-todo/{{ todo.id }}"
-                              class="btn btn-danger"
-                              >Delete</a
-                            >
+                            <a href="/app/delete-todo/{{ todo.id }}" class="btn btn-danger">Sil</a>
                           </div>
                         </div>
                       </div>
                     </div>
                     {% if todo.status == 'P' %}
-                    <a
-                      href="/change-status/{{ todo.id }}/C"
-                      class="btn btn-success"
-                      >Completed</a
-                    >
+                    <a href="/app/change-status/{{ todo.id }}/C" class="btn btn-success">Həll edildi</a>
                     {% else %}
-                    <a
-                      href="/change-status/{{ todo.id }}/P"
-                      class="btn btn-success"
-                      >Pending</a
-                    >
+                    <a href="/app/change-status/{{ todo.id }}/P" class="btn btn-success">Gözləyir</a>
                     {% endif %}
                   </td>
                 </tr>
@@ -135,181 +98,212 @@
   </div>
 </div>
 <style>
-h1 {
-  margin: 15px 0;
-  font-weight: 900;
-  font-size: 28px;
-  text-align: center;
-}
-input {
-  transition: 0.5s ease-in-out;
-  margin: 10px 0;
-  font-size: 18px;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.11);
-  border: none;
-}
-.btn-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10%;
-  margin: 35px 0;
-}
-button {
-  margin: 5px;
-  padding: 10px;
-  border: none;
-  font-size: 18px;
-  transition: 0.5s ease-in-out;
-}
-label {
-  font-size: 12px;
-}
-form {
-  height: 20%;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  max-width: 370px;
-  margin: 5px auto;
-}
-form button {
-  background: rgb(25, 67, 255);
-  width: 100%;
-  margin: 5px 0;
-  color: white;
-}
-.start {
-  background: rgb(48, 33, 253);
-  color: white;
-}
-.break {
-  background: rgb(0, 199, 116);
-  color: #000000;
-}
-.reset {
-  background: rgb(250, 69, 109);
-  color: #000000;
-}
-.pause {
-  background: rgb(253, 143, 17);
-}
-.resume {
-  background: rgb(131, 10, 252);
-  color: white;
-}
-.clock {
-  padding: 3px;
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  height: 30%;
-  font-size: 24px;
-}
-.progress-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.progress-ring__circle {
-  transition: 0.5s;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-  stroke: rgb(51, 65, 255);
-}
-
-.danger {
-  stroke: rgb(243, 17, 28);
-  animation: pulse 0.9s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: rotate(-90deg) scale(1);
+  h1 {
+    margin: 15px 0;
+    font-weight: 900;
+    font-size: 28px;
+    text-align: center;
   }
-  50% {
-    transform: rotate(-90deg) scale(1.05);
-  }
-  75% {
-    transform: rotate(-90deg) scale(0.8);
-  }
-}
 
-@media screen and (min-width: 768px) {
-  .clock-container {
-    padding-top: 50px;
-    display: grid;
-    grid-template-areas:
-      "clock form"
-      "btns form";
+  input {
+    transition: 0.5s ease-in-out;
+    margin: 10px 0;
+    font-size: 18px;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.11);
+    border: none;
   }
+
   .btn-group {
-    grid-area: btns;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10%;
+    margin: 35px 0;
+  }
+
+  button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    font-size: 18px;
+    transition: 0.5s ease-in-out;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  form {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    max-width: 370px;
+    margin: 5px auto;
+  }
+
+  form button {
+    background: rgb(25, 67, 255);
+    width: 100%;
+    margin: 5px 0;
+    color: white;
+  }
+
+  .start {
+    background: rgb(48, 33, 253);
+    color: white;
+  }
+
+  .break {
+    background: rgb(0, 199, 116);
+    color: #000000;
+  }
+
+  .reset {
+    background: rgb(250, 69, 109);
+    color: #000000;
+  }
+
+  .pause {
+    background: rgb(253, 143, 17);
+  }
+
+  .resume {
+    background: rgb(131, 10, 252);
+    color: white;
+  }
+
+  .clock {
+    padding: 3px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    height: 30%;
+    font-size: 24px;
+  }
+
+  .progress-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .progress-ring__circle {
+    transition: 0.5s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke: rgb(51, 65, 255);
+  }
+
+  .danger {
+    stroke: rgb(243, 17, 28);
+    animation: pulse 0.9s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+
+    0%,
+    100% {
+      transform: rotate(-90deg) scale(1);
+    }
+
+    50% {
+      transform: rotate(-90deg) scale(1.05);
+    }
+
+    75% {
+      transform: rotate(-90deg) scale(0.8);
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .clock-container {
+      padding-top: 50px;
+      display: grid;
+      grid-template-areas:
+        "clock form"
+        "btns form";
+    }
+
+    .btn-group {
+      grid-area: btns;
+      justify-content: center;
+    }
+
+    .clock {
+      grid-area: clock;
+      height: 100%;
+    }
+
+    h1 {
+      grid-area: head;
+
+      align-self: center;
+    }
+
+    form {
+      align-self: center;
+      justify-self: center;
+      grid-area: form;
+      width: 50%;
+      justify-content: space-around;
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    form {
+      height: 40%;
+    }
+  }
+
+  .murmur {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
   }
-  .clock {
-    grid-area: clock;
-    height: 100%;
-  }
-  h1 {
-    grid-area: head;
 
-    align-self: center;
+  .sounds {
+    margin: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  form {
-    align-self: center;
-    justify-self: center;
-    grid-area: form;
-    width: 50%;
-    justify-content: space-around;
-  }
-}
 
-@media screen and (max-width: 375px) {
-  form {
-    height: 40%;
+  .murmur i {
+    font-size: 60px;
+    margin: 0 20px;
+    text-align: center;
   }
-}
 
- </style>
-<div class='clock-container'>
+</style>
+<div class="clock-container">
   <figure class="clock">
     <div class="mins">0</div>
     <div>:</div>
     <div class="secs">00</div>
-    <audio
-      src="http://soundbible.com/mp3/service-bell_daniel_simion.mp3"
-    ></audio>
+    <audio src="http://soundbible.com/mp3/service-bell_daniel_simion.mp3"></audio>
     <svg class="progress-ring" height="120" width="120">
-      <circle
-        class="progress-ring__circle"
-        stroke-width="8"
-        fill="transparent"
-        r="50"
-        cx="60"
-        cy="60"
-      />
+      <circle class="progress-ring__circle" stroke-width="8" fill="transparent" r="50" cx="60" cy="60" />
     </svg>
   </figure>
 
   <div class="btn-group">
-    <button class="start">start focus</button>
-    <button class="reset">reset</button>
-    <button class="pause">pause</button>
+    <button class="start">Başla</button>
+    <button class="reset">Yenilə</button>
+    <button class="pause">Stop</button>
   </div>
 
   <form id="form">
-    <label for="focusTime">Focus Time</label>
+    <label for="focusTime">Diqqət zamanı</label>
     <input type="number" value="1" id="focusTime" />
-    <label for="breakTime">Break Time</label>
+    <label for="breakTime">Fasilə zamanı</label>
     <input type="number" value="1" id="breakTime" />
-    <button type="submit">Save settings</button>
+    <button type="submit">Yadda saxla</button>
   </form>
 
   <script>
@@ -344,7 +338,7 @@ form button {
         pauseBtn.classList.remove("resume");
       } else {
         clearTimeout(initial);
-        pauseBtn.textContent = "resume";
+        pauseBtn.textContent = "Davam et";
         pauseBtn.classList.add("resume");
         paused = true;
       }
@@ -361,6 +355,7 @@ form button {
       const offset = circumference - (percent / 100) * circumference;
       circle.style.strokeDashoffset = offset;
     }
+
     const el = document.querySelector(".clock");
     const bell = document.querySelector("audio");
 
@@ -422,6 +417,72 @@ form button {
       }
     }
   </script>
+  <script>
+    $("#signup").click(function () {
+      $(".message").css("transform", "translateX(100%)");
+      if ($(".message").hasClass("login")) {
+        $(".message").removeClass("login");
+      }
+      $(".message").addClass("signup");
+    });
+
+    $("#login").click(function () {
+      $(".message").css("transform", "translateX(0)");
+      if ($(".message").hasClass("login")) {
+        $(".message").removeClass("signup");
+      }
+      $(".message").addClass("login");
+    });
+  </script>
+
+</div>
+
+<div class="murmur">
+  <div class="sounds">
+    <i class="fas fa-cloud-rain"></i>
+    <p>Yağış</p>
+    <div>
+      <audio preload="auto" loop controls src='https://st2.asoftmurmur.com/assets/p/content/rain/main-rain.mp4'
+        type='autio/mp4'></audio>
+    </div>
+  </div>
+
+  <div class="sounds">
+    <i class="fas fa-poo-storm"></i>
+    <p>Şimşək</p>
+    <div>
+      <audio preload="auto" loop controls src="https://st2.asoftmurmur.com/assets/p/content/thunder/main-thunder.mp4"
+        type="autio/mp4"></audio>
+    </div>
+  </div>
+
+  <div class="sounds">
+    <i class="fas fa-water"></i>
+    <p>Dalğa</p>
+    <div>
+      <audio preload="auto" loop controls src="https://st3.asoftmurmur.com/assets/p/content/waves/main-waves.mp4"
+        type="autio/mp4"></audio>
+    </div>
+  </div>
+
+  <div class="sounds">
+    <i class="fas fa-wind"></i>
+    <p>Külək</p>
+    <div>
+      <audio preload="auto" loop controls src='https://st2.asoftmurmur.com/assets/p/content/wind/main-wind.mp4'
+        type='autio/mp4'>
+        ></audio>
+    </div>
+  </div>
+
+  <div class="sounds">
+    <i class="fas fa-coffee"></i>
+    <p>Kofe restoranı</p>
+    <div>
+      <audio preload="auto" loop controls src='https://st3.asoftmurmur.com/assets/p/content/people/main-people.mp4'>
+        ></audio>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

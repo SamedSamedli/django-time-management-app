@@ -1,0 +1,348 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" defer></script>
+    <title>Freedom</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static './css/style.css' %}" />
+    <script src="{% static './js/main.js' %}" defer></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">Freedom</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"      
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/app/logout">Çıxış</a>
+          </li>
+
+           <li class="nav-item">
+            <a class="nav-link" href="/app">App</a>
+          </li>
+
+            
+          {% else %}
+          <li class="nav-item">
+              <a class="nav-link" href="#whyus">Niyə biz?</a>
+            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/app/login">Giriş</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/app/signup">Qeydiyyat</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+  <main class="main-content">
+  <section class="slideshow">
+    <div class="slideshow-inner">
+      <div class="slides">
+        <div class="slide is-active ">
+          <div class="slide-content">
+            <div class="caption">
+              <div class="title">Diqqəti yayındırmadan işləmək azadlığı</div>
+              {% comment %} <div class="text">
+                <p>Slide description 1</p>
+              </div> 
+              <a href="#" class="btn">
+                <span class="btn-inner">Learn More</span>
+              </a> {% endcomment %}
+            </div>
+          </div>
+          <div class="image-container"> 
+            <img src="{% static 'img/desktop.jpg' %}" alt="" class="image" />
+          </div>
+        </div>
+        <div class="slide">
+          <div class="slide-content">
+            <div class="caption">
+              <div class="title">Evdən ən yaxşı işinizi görmək azadlığı</div>
+              {% comment %} <div class="text">
+                <p>Slide description 2</p>
+              </div> 
+              <a href="#" class="btn">
+                <span class="btn-inner">Learn More</span>
+              </a> {% endcomment %}
+            </div>
+          </div>
+          <div class="image-container">
+            <img src="{% static 'img/laptop.jpg' %}" alt="" class="image" />
+          </div>
+        </div>
+        <div class="slide">
+          <div class="slide-content">
+            <div class="caption">
+              <div class="title">İnanılmaz dərəcədə məhsuldar olmaq azadlığı</div>
+              {% comment %} <div class="text">
+                <p>Slide description 3</p>
+              </div> 
+              <a href="#" class="btn">
+                <span class="btn-inner">Learn More</span>
+              </a> {% endcomment %}
+            </div>
+          </div>
+          <div class="image-container">
+            <img src="{% static 'img/ipad.jpg' %}" alt="" class="image" />
+          </div>
+        </div>
+        
+      <div class="pagination">
+        <div class="item is-active"> 
+          <span class="icon">1</span>
+        </div>
+        <div class="item">
+          <span class="icon">2</span>
+        </div>
+        <div class="item">
+          <span class="icon">3</span>
+        </div>
+      </div>
+      <div class="arrows">
+        <div class="arrow prev">
+          <span class="svg svg-arrow-left">
+            <svg version="1.1" id="svg4-Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="14px" height="26px" viewBox="0 0 14 26" enable-background="new 0 0 14 26" xml:space="preserve"> <path d="M13,26c-0.256,0-0.512-0.098-0.707-0.293l-12-12c-0.391-0.391-0.391-1.023,0-1.414l12-12c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414L2.414,13l11.293,11.293c0.391,0.391,0.391,1.023,0,1.414C13.512,25.902,13.256,26,13,26z"/> </svg>
+            <span class="alt sr-only"></span>
+          </span>
+        </div>
+        <div class="arrow next">
+          <span class="svg svg-arrow-right">
+            <svg version="1.1" id="svg5-Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="14px" height="26px" viewBox="0 0 14 26" enable-background="new 0 0 14 26" xml:space="preserve"> <path d="M1,0c0.256,0,0.512,0.098,0.707,0.293l12,12c0.391,0.391,0.391,1.023,0,1.414l-12,12c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414L11.586,13L0.293,1.707c-0.391-0.391-0.391-1.023,0-1.414C0.488,0.098,0.744,0,1,0z"/> </svg>
+            <span class="alt sr-only"></span>
+          </span>
+        </div>
+      </div>
+    </div> 
+  </section>
+</main>
+
+<section class="control">
+
+<h1>Diqqəti yayındıran şeylərə nəzarət edin. Əhəmiyyətli olanlara diqqət yetirin.</h1>
+<p> Sosial media, alış-veriş, videolar, oyunlar ... bu tətbiqetmələr və veb saytlar sizi bağlamaq və geri dönmək üçün elmi cəhətdən hazırlanmışdır. Məhsuldarlığınızın, fokuslanma qabiliyyətinizin və ümumi rifahınızın dəyəri heyrətləndirici ola bilər. Freedom sizə nəzarət verir. Elə isə indi qeydiyyatdan keçin...</p>
+
+
+<a class="btn contbtn" href="/app/signup">Qeydiyyat</a>
+
+
+</section>
+
+
+<section class="whyus" id="whyus"> 
+
+<div class="container">
+  <h1>Niyə Freedomdan istifadə edək?</h1>
+
+  <div class="whyinner d-flex  flex-column-reverse flex-md-row align-items-center justify-content-center">
+
+    <div>
+      <img src="{% static 'img/minute.png' %}" />
+    </div>
+
+      <div class="whytext w-100 w-md-50"> 
+        <h2 class="green"> Hər dəfə 23 dəqiqə itirirsiniz </h2>
+        <p> Araşdırmalar göstərir ki, hər dəfə e-poçtu, sosial medianı yoxladıqda və ya bildirişə cavab verdiyiniz zaman işinizə qayıtmaq üçün zehniniz 23 dəqiqə yenidən fokuslanma vaxtı tələb edir. İşimizi ən yaxşı şəkildə etməyə çalışarkən, bütün iş gücümüz və hər birimiz üçün fövqəladə bir xərcdir. </p>
+      </div>
+  </div>
+
+<hr>
+
+<div class="whyinner d-flex  flex-column-reverse flex-md-row align-items-center justify-content-center">
+
+    <div class="whytext w-100 w-md-50"> 
+      <h2 class="green"> Çox tapşırıq 40% daha az məhsuldardır </h2>
+      <p> Araşdırmalar çox tapşırığa qarşıdır. Bir çox yanğını söndürərək özümüzü inanılmaz dərəcədə məhsuldar hiss edə bilərik, ancaq çoxlu tapşırıq edərkən 40% daha az məhsuldar oluruq. Hətta çoxlu tapşırıq etmək İQ-nizi 10 bal azalda bilər.</p>
+    </div>
+
+    <div>
+      <img src="{% static 'img/task.png' %}" />
+    </div>
+</div>
+
+<hr>
+
+<div class="whyinner d-flex  flex-column-reverse flex-md-row align-items-center justify-content-center">
+
+    <div>
+      <img src="{% static 'img/att.png' %}" />
+    </div>
+
+    <div class="whytext w-100 w-md-50"> 
+      <h2 class="green"> Diqqəti yayındıran şeylər vərdiş yaradır </h2>
+      <p> Söndür və ya Kənara qoy demək çox asandır, ancaq araşdırmalar bunun heç də asan olmadığını göstərir. Beynimiz rəqəmsal yayındırıcların yaratdığı mükafatları istəyir. Onları yoxlamağımızı, cavab verməyimizi və s.</p>
+    </div>
+
+</div>
+
+    <hr>
+
+    <h1 style="margin-top:20px;"> Freedomdan istifadə etmək asanlaşdırır: </h1>
+
+    <div class="whyuse d-flex  flex-column-reverse flex-md-row align-items-center justify-content-center">
+
+      <div>
+        <img src="{% static 'img/logo.png' %}" /> 
+      </div>
+
+      <div class="whyusetext w-100 w-md-50"> 
+        <h3>Diqqəti yayındıran şeyləri aradan qaldırın və bir işə diqqət yetirin</h3>
+        <p>Diqqətinizi dağıdan şeylər əngəlləndiyində, iş axınına girə bilər və tapşırıqda qala bilərsiniz.</p>
+      </div>
+      
+    </div>
+
+    <div class="whyuse d-flex  flex-column-reverse flex-md-row align-items-center justify-content-center">
+
+      <div>
+        <img src="{% static 'img/logo.png' %}" /> 
+      </div>
+
+      <div class="whyusetext w-100 w-md-50"> 
+        <h3>Pis vərdişlərdən imtina edin</h3>
+        <p>Diqqətinizi dağıdan şeylər əngəlləndiyində, iş axınına girə bilər və tapşırıqda qala bilərsiniz.</p>
+      </div>
+      
+    </div>
+
+    <div class="whyuse d-flex  flex-column-reverse flex-md-row align-items-center justify-content-center">
+
+      <div>
+        <img src="{% static 'img/logo.png' %}" /> 
+      </div>
+
+      <div class="whyusetext w-100 w-md-50"> 
+        <h3>Yeni vərdişlər yaradın</h3>
+        <p>Kiçikdən başlayın, sonra daha uzun müddətli iş vaxtında yeni vərdişlər qurun. E-poçtunuza poçt qutusu kimi baxın (poçt gündə bir dəfə gəlir və gedir) və həmin vaxtla (cavab rejimində deyil) aktiv şəkildə sosial mediadan zövq alın..</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h1 style="margin-top:20px;" > Freedom kimlər tərəfindən istifadə edilə bilər: </h1>
+
+    <div class="whyusedby mt-5"> 
+      <div class="container">
+          <div class="row mx-5 px-5">
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                            <div><img src="{% static 'img/writers.png' %}" /></div>
+                            <p class="text-center mt-3"> Yazıçılar </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                        <div><img src="{% static 'img/matket.png' %}" /></div>
+                        <p class="text-center mt-3"> Marketoloqlar </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                        <div><img src="{% static 'img/ceo.png' %}" /></div>
+                        <p class="text-center mt-3"> CEO </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                        <div><img src="{% static 'img/developer.png' %}" /></div>
+                        <p class="text-center mt-3"> Proqramistlər </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                        <div><img src="{% static 'img/students.png' %}" /></div>
+                        <p class="text-center mt-3"> Tədqiqatçılar </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                        <div><img src="{% static 'img/telebe.png' %}" /></div>
+                        <p class="text-center mt-3"> Tələbələr </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                        <div><img src="{% static 'img/editor.png' %}" /></div>
+                        <p class="text-center mt-3"> Redaktorlar </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 mb-3 d-flex justify-content-center">
+                      <div class="usedinner"> 
+                        <div><img src="{% static 'img/heart.png' %}" /></div>
+                        <p class="text-center mt-3"> Və daha çoxu... </p>
+                      </div>
+                    </div>
+          </div>
+      </div>
+    </div>
+
+
+</div>
+
+</section>
+
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Footer -->
+<footer style="background-color: azure;"  class="page-footer font-small unique-color-dark pt-4">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Call to action -->
+    <ul class="list-unstyled list-inline text-center py-2">
+      <li class="list-inline-item">
+        <h5 class="mb-1">Pulsuz qeydiyyatdan keçin</h5>
+      </li>
+      <li class="list-inline-item">
+        <a class="nav-link qeydiyyat" href="/app/signup">Qeydiyyat</a>
+      </li>
+    </ul>
+    <!-- Call to action -->
+
+  </div>
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
+    <a>Səməd Səmədli tərəfindən <span class="sevgi">sevgi</span> ilə hazırlanmışdır.</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+  </body>
+</html>

@@ -1,13 +1,14 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login as loginUser, logout
+from . import forms
 
 # from .forms import UserForm
 
 
 # Create your views here.
 from app.forms import TODOForm
-from app.models import TODO
+from app.models import Blocklist, TODO
 from django.contrib.auth.decorators import login_required
 
 
@@ -17,7 +18,8 @@ def home(request):
         user = request.user
         form = TODOForm()
         todos = TODO.objects.filter(user=user).order_by('priority')
-        return render(request, 'index.html', context={'form': form, 'todos': todos})
+        blocklist = Blocklist.objects.all()
+        return render(request, 'index.html', context={'form': form, "blocklist": blocklist , 'todos': todos})
 
 
 def login(request):
@@ -68,14 +70,11 @@ def signup(request):
 def add_todo(request):
     if request.user.is_authenticated:
         user = request.user
-        print(user)
         form = TODOForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             todo = form.save(commit=False)
             todo.user = user
             todo.save()
-            print(todo)
             return redirect("home")
         else:
             return render(request, 'index.html', context={'form': form})
@@ -86,10 +85,9 @@ def signout(request):
     return redirect('login')
 
 
-def delete_todo(request, id):
-    print(id)
-    TODO.objects.get(pk=id).delete()
-    return redirect('home')
+# def delete_todo(request, id):
+    # TODO.objects.get(pk=id).delete()
+    # return redirect('home')
 
 
 def change_todo(request, id, status):
@@ -97,3 +95,29 @@ def change_todo(request, id, status):
     todo.status = status
     todo.save()
     return redirect('home')
+
+@login_required(login_url="login")
+def delete_todo(request, id):
+        if request.method != 'POST':
+            TODO.objects.filter(pk=id).delete()
+            return redirect('home')
+
+        else:
+            return render(request, 'index.html')
+
+
+def create_Blocklist(request):
+        form2 = forms.CreateBlocklist(request.POST)
+        if form2.is_valid():
+            form2.save()
+            return redirect('home')
+        else:
+            return render(request, 'index.html', context = {'form2': form2})
+
+def delete_blocklist(request, id):
+    if request.method == 'GET':
+        Blocklist.objects.filter(pk=id).delete()
+        return redirect('home')
+
+    else:
+        return render(request, 'index.html')

@@ -28,9 +28,7 @@ class TODO(models.Model):
     priority = models.CharField(max_length=2, choices=priority_choices)
 
 
-class Category(models.Model):
-    title = models.CharField(max_length=100)
-    #slug = models.SlugField()
+class Blocklist(models.Model):
+    name = models.CharField(max_length=100)
     def __str__(self):
-     return self.title
-
+     return self.name

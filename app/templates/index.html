@@ -53,12 +53,12 @@
                   <td>{{ todo.date }}</td>
                   <td>
                     <!-- Button trigger modal -->
-                    <button data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-danger">
+                    <button data-toggle="modal" data-target="#exampleModalCenter{{ todo.id }}" class="btn btn-danger">
                       Sil
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    <div class="modal fade" id="exampleModalCenter{{ todo.id }}" tabindex="-1" role="dialog"
                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -436,6 +436,349 @@
   </script>
 
 </div>
+
+<style>
+
+
+html {
+  height: 100%;
+  position: relative;
+}
+
+.fa, .cat-submit-container {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-search:before {
+  content: "\f067";
+}
+
+.fa-angle-down:before {
+  content: "\f107";
+}
+
+.fa-arrow-right:before, .cat-submit-container:before {
+  content: "\f067";
+}
+.ready .fa-arrow-right:before, .ready .cat-submit-container:before {
+  content: "\f061";
+}
+.wobble .fa-arrow-right:before, .wobble .cat-submit-container:before {
+  animation-name: ease-left;
+  animation-duration: 500ms;
+  animation-fill-mode: both;
+  transition: transform 200ms;
+  animation-timing-function: ease-out;
+}
+
+.thumbnail {
+  display: block;
+  height: 250px;
+  margin: 0 auto;
+  width: 425px;
+  margin-top: 50px;
+  background-color: rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: height 200ms 300ms;
+}
+.thumbnail.hascategory {
+  height: 260px;
+}
+
+.cat-wrap {
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+  transition: 200ms all;
+}
+.cat-wrap.expanded {
+  left: 0;
+}
+
+.cat-container input:-moz-placeholder, .cat-container input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+input[type="text"] {
+  box-sizing: border-box;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+input:-moz-placeholder, input::-webkit-input-placeholder {
+  color: #999;
+}
+
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.cat-container {
+  position: relative;
+  color: white;
+  margin: 0 auto;
+  display: inline-block;
+  text-align: left;
+  height: 100%;
+}
+.cat-container:before {
+  position: absolute;
+  top: 1.2em;
+  left: 1.2em;
+  font-size: 15px;
+}
+
+.cat-name {
+  outline: none;
+  width: 0px;
+  color: transparent;
+  cursor: pointer;
+  border: none;
+  min-height: 80px;
+  font-size: 1.5em;
+  height: 100%;
+  -webkit-appearance: textfield;
+  box-sizing: border-box;
+  padding: 0;
+  transition: all .2s, width .1s ease-in-out;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #7db9e8;
+  font-size: 30px;
+}
+.expanded .cat-name {
+  width: 350px;
+  box-shadow: none;
+  padding: 8px 25px;
+  padding-top: 15px;
+  cursor: auto;
+}
+
+.cat-label {
+  font-size: .75em;
+  text-transform: uppercase;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  position: absolute;
+  color: rgba(0, 0, 0, 0.3);
+  transition: 30ms opacity;
+  padding-top: 10px;
+}
+.expanded .cat-label {
+  opacity: 1;
+  transition: 300ms opacity;
+}
+
+.cat-submit-container {
+  display: inline-block;
+  height: 80px;
+  width: 80px;
+  position: absolute;
+  transition: visibility 1ms;
+  box-shadow: none;
+  box-sizing: border-box;
+  top: 15px;
+}
+.cat-submit-container:before {
+  position: absolute;
+  top: 50%;
+  color: #7db9e8;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(90deg);
+  display: block;
+  transition: 200ms all, 400ms transform;
+}
+.expanded .cat-submit-container:before {
+  transform: translateX(-50%) translateY(-50%) rotate(360deg);
+}
+.show-submit.expanded .cat-submit-container {
+  visibility: inherit;
+}
+.cat-submit-container .cat-submit {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+  cursor: pointer;
+  text-indent: -999px;
+  background: white;
+  padding: 0;
+  border: none;
+}
+.show-submit .cat-submit-container .cat-submit {
+  width: 100%;
+  visibility: inherit;
+}
+
+.cat-added-label {
+  display: inline-block;
+  font-size: .75em;
+  width: 100%;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  top: 0px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  max-width: 0;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: max-width 200ms 300ms, visibilty 1ms 300ms, opacity 300ms 300ms, padding 200ms 300ms;
+}
+.hascategory .cat-added-label {
+  max-width: 600px;
+  visibility: visible;
+  opacity: 1;
+  padding: 10px;
+}
+
+@keyframes rubberBand {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scaleX(1.15) scaleY(0.75);
+  }
+  40% {
+    transform: scaleX(0.75) scaleY(1.25);
+  }
+  60% {
+    transform: scaleX(1.05) scaleY(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes ease-left {
+  0%, 100% {
+    transform: translateX(-50%) translateY(-50%);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-10%) translateY(-50%);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-50%);
+  }
+  70% {
+    transform: translateX(-30%) translateY(-50%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+</style>
+
+<div class="thumbnail hascategory">
+  {% for blocklist in blocklist %}
+  <div class="cat-added-label">{{blocklist.name}} &nbsp;
+  <a href="/app/delete-blocklist/{{ blocklist.id }}" class="btn btn-danger">Sil</a>
+  </div>
+{% endfor %}
+  <div class="cat-wrap">
+    <div class="cat-container">
+      <form action="/app/add-blocklist/" method="post" style="width: 100%;">
+        {% csrf_token %}
+          {{ form2.name.label }}
+          {{ form2.name }}
+          {{ form2.messages }}
+          {{ form2.errors }}
+        <label for="category" class="cat-label">Name category</label>
+        <input type="text" name="category" class="cat-name ui-autocomplete-input" accesskey="4" autocomplete="off" id="input" placeholder="">
+      </div>
+      <div class="cat-submit-container">
+        <div class="cat-submit">Submit</div>
+        <input class="btn btn-success" type="submit" value="Submit">
+      </form>
+      </div>
+  </div>
+  
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+  $( document ).ready(function() {
+
+var containerClass   = '.thumbnail';
+    inputClass       = '.cat-name',
+    labelClass       = '.cat-added-label',
+    catSubmit      = $('.cat-submit');
+  
+catSubmit.click(function(e){
+  // e.preventDefault();
+  setVars($(this));
+ 
+  catInput.focus();
+  onBlur();
+   catInput.keypress(function(){
+    if(catInput.val().length > 1){
+      catContainer.addClass('ready');
+    }else {
+      catContainer.removeClass('ready');
+    }
+  });
+  if (catContainer.hasClass('expanded') && catInput.val().length > 100) { // If there's something in the box
+    var catName = catInput.val();
+    addCategory(catName);
+  } else if (catContainer.hasClass('expanded')){
+    catContainer.addClass('wobble');  // Error if trying to submit something blank
+  } else {
+    catContainer.addClass('expanded'); // Reveal the form 
+  }
+});
+function addCategory(category) {
+  console.log('Added ' + category + ' category');
+  catContainer.removeClass('expanded');
+  catContainer.addClass('hascategory');
+  catLabel.text(category);
+  catInput.val('').blur(); // Reset the input field
+}
+
+function setVars(_this) {
+  catContainer = _this.parents(containerClass); // Define relative variables
+  catInput     = catContainer.find(inputClass);
+  catLabel     = catContainer.find(labelClass);
+}
+
+function onBlur() {
+  catSubmit.blur(function(){
+    console.log('blurring');
+     window.setTimeout(blurTester, 100);
+     catContainer.removeClass('wobble');
+  });
+  catInput.blur(function(){
+     window.setTimeout(blurTester, 100);
+  });
+
+  function blurTester() {if (catInput.is(":focus") ||  (catSubmit.is(":focus")) ){
+    }
+    else if ($(catInput).val()) {
+
+    }else {
+      catContainer.removeClass('expanded');
+      catContainer.removeClass('ready');
+    }
+  }
+}
+  
+});
+</script>
 
 <div class="murmur">
   <div class="sounds">
